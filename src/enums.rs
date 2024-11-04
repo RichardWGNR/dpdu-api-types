@@ -34,7 +34,7 @@ pub enum PduIt {
     /// Unique response ID table
     UniqueRespIdTable = 0x1700,
     /// DoIP Vehicle ID request
-    IoVehicleIdRequest = 1800,
+    IoVehicleIdRequest = 0x1800,
     /// DoIP ethernet activation
     EthSwitchState = 0x1801,
     /// DoIP entity addressing
