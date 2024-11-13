@@ -1,5 +1,5 @@
 [package]
-name = "dpdu-rust"
+name = "dpdu-api-types"
 version = "0.8.7"
 authors = ["Ashcon Mohseninia <ashconm@outlook.com>", "RichardWGNR <171420035+RichardWGNR@users.noreply.github.com>"]
 edition = "2021"
