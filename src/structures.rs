@@ -51,7 +51,11 @@ impl From<&mut [u8]> for IoByteArrayData {
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct IoFilter {
+    /// Number of IoFilterData structures
+    /// by p_filter_data pointer.
     pub num_filter_entries: u32,
+    
+    /// Pointer to the first IoFilterData structure
     pub p_filter_data: *mut IoFilterData
 }
 
