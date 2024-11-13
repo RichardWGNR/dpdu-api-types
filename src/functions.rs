@@ -9,13 +9,13 @@ use crate::*;
 /// ## Parameters
 /// * option_str - A list of attributes and values specific to D-PDU API
 /// * p_api_tag - Application defined tag value for callbacks
-pub type PduConstructFn = extern "C" fn(
+pub type PduConstructFn = extern "system" fn(
     option_str: *mut u8, 
     p_api_tag: *mut c_void
 ) -> PduError;
 
 /// Closes all open communication channels and destructs the PDU API library
-pub type PduDestructFn = extern "C" fn() -> PduError;
+pub type PduDestructFn = extern "system" fn() -> PduError;
 
 /// Performs generic IOCTL calls on a MVCI or ComLogicalLink
 /// 
@@ -26,7 +26,7 @@ pub type PduDestructFn = extern "C" fn() -> PduError;
 /// * p_input_data - Pointer to input data item (Null if not required)
 /// * p_output_data - Pointer to output data item (Null if not required)
 /// 
-pub type PduIoctlFn = extern "C" fn(
+pub type PduIoctlFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     ioctl_commanded_id: u32,
@@ -39,7 +39,7 @@ pub type PduIoctlFn = extern "C" fn(
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * p_version_data - Output pointer for the destination of the version data
-pub type PduGetVersionFn = extern "C" fn(
+pub type PduGetVersionFn = extern "system" fn(
     h_mod: u32,
     p_version_data: *mut VersionData
 ) -> PduError;
@@ -53,7 +53,7 @@ pub type PduGetVersionFn = extern "C" fn(
 /// * p_status_code - Pointer to store the status code
 /// * p_timestamp - Pointer to store timestamp in microseconds
 /// * p_extra_info - Pointer for storing any extra information
-pub type PduGetStatusFn = extern "C" fn(
+pub type PduGetStatusFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     h_cop: u32,
@@ -72,7 +72,7 @@ pub type PduGetStatusFn = extern "C" fn(
 /// * ph_cop - If the last error persists to a ComPrimitive, then this will contain the handle of the ComPrimitive
 /// * p_timestamp - Pointer to store timestamp
 /// * Pointer for storing any extra information
-pub type PduGetListErrorFn = extern "C" fn(
+pub type PduGetListErrorFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     p_error_code: *mut PduErrorEvt,
@@ -85,7 +85,7 @@ pub type PduGetListErrorFn = extern "C" fn(
 /// 
 /// ## Parameters
 /// * p_resource_status - Pointer to store the status of the requested resource IDs
-pub type PduGetResourceStatusFn = extern "C" fn(
+pub type PduGetResourceStatusFn = extern "system" fn(
     p_resource_status: *mut RscStatusItem
 ) -> PduError;
 
@@ -98,7 +98,7 @@ pub type PduGetResourceStatusFn = extern "C" fn(
 /// * p_cll_tag - Application defined tag value
 /// * ph_cll - Pointer for storing the ComLogicalLink handle to
 /// * p_cll_Create_flag - Pointer for storage of flag bits
-pub type PduCreateComLogicalLinkFn = extern "C" fn(
+pub type PduCreateComLogicalLinkFn = extern "system" fn(
     h_mod: u32,
     p_rsc_data: *mut RscData,
     resource_id: u32,
@@ -112,7 +112,7 @@ pub type PduCreateComLogicalLinkFn = extern "C" fn(
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to destroy
-pub type PduDestroyComLogicalLinkFn = extern "C" fn(
+pub type PduDestroyComLogicalLinkFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32
 ) -> PduError;
@@ -122,7 +122,7 @@ pub type PduDestroyComLogicalLinkFn = extern "C" fn(
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to connect
-pub type PduConnectFn = extern "C" fn(
+pub type PduConnectFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32
 ) -> PduError;
@@ -132,7 +132,7 @@ pub type PduConnectFn = extern "C" fn(
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to disconnect
-pub type PduDisconnectFn = extern "C" fn(
+pub type PduDisconnectFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32
 ) -> PduError;
@@ -143,7 +143,7 @@ pub type PduDisconnectFn = extern "C" fn(
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to be granted exclusive access
 /// * lock_mask - Bit encoded mask to request for locking
-pub type PduLockResourceFn = extern "C" fn(
+pub type PduLockResourceFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     lock_mask: u32
@@ -155,7 +155,7 @@ pub type PduLockResourceFn = extern "C" fn(
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to unlock the resource from
 /// * lock_mask - Bit encoded mask to request for release
-pub type PduUnlockResourceFn = extern "C" fn(
+pub type PduUnlockResourceFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     lock_mask: u32
@@ -168,7 +168,7 @@ pub type PduUnlockResourceFn = extern "C" fn(
 /// * h_cll - Handle of the ComLogicalLink
 /// * param_id - ID value of the ComParam that is being requested
 /// * p_param_items - Pointer to store the requested ComParam into
-pub type PduGetComParamFn = extern "C" fn(
+pub type PduGetComParamFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     param_id: u32,
@@ -181,7 +181,7 @@ pub type PduGetComParamFn = extern "C" fn(
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to set the param on
 /// * p_param_items - Pointer to a ComParams to set
-pub type PduSetComParamFn = extern "C" fn(
+pub type PduSetComParamFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     p_param_items: *mut ParamItem
@@ -197,7 +197,7 @@ pub type PduSetComParamFn = extern "C" fn(
 /// * p_cop_data - Pointer to data for the ComPrimitive
 /// * p_cop_tag - Application specific tag
 /// * ph_cop - Reference for storing the returned ComPrimitive handle
-pub type PduStartComPrimitiveFn = extern "C" fn(
+pub type PduStartComPrimitiveFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     cop_type: PduCopt,
@@ -214,7 +214,7 @@ pub type PduStartComPrimitiveFn = extern "C" fn(
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink
 /// * h_cop - Handle of the ComPrimitive
-pub type PduCancelComPrimitiveFn = extern "C" fn(
+pub type PduCancelComPrimitiveFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     h_cop: u32
@@ -226,7 +226,7 @@ pub type PduCancelComPrimitiveFn = extern "C" fn(
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink
 /// * p_event_item - Pointer to store the event item
-pub type PduGetEventItemFn = extern "C" fn(
+pub type PduGetEventItemFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     p_event_item: *mut *mut EventItem
@@ -236,7 +236,7 @@ pub type PduGetEventItemFn = extern "C" fn(
 /// 
 /// ## Parameters
 /// * p_item - Pointer to item to be destroyed
-pub type PduDestroyItemFn = extern "C" fn(
+pub type PduDestroyItemFn = extern "system" fn(
     p_item: *mut PduItem
 ) -> PduError;
 
@@ -246,7 +246,7 @@ pub type PduDestroyItemFn = extern "C" fn(
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink
 /// * callback_fn - Callback function (null to deregister callback)
-pub type PduRegisterCallbackFn = extern "C" fn(
+pub type PduRegisterCallbackFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     callback_fn: EventCallbackFn
@@ -258,7 +258,7 @@ pub type PduRegisterCallbackFn = extern "C" fn(
 /// * pdu_object_type - Type of object
 /// * p_short_name - Short name of the object
 /// * p_pdu_object_id - Reference to store the object ID
-pub type PduGetObjectIdFn = extern "C" fn(
+pub type PduGetObjectIdFn = extern "system" fn(
     pdu_object_type: PduObjt,
     p_short_name: *mut u8,
     p_pdu_object_id: *mut u32
@@ -269,7 +269,7 @@ pub type PduGetObjectIdFn = extern "C" fn(
 /// 
 /// ## Parameters
 /// * p_module_id_list - Pointer for storing the pointer of the module information list
-pub type PduGetModuleIdsFn = extern "C" fn(
+pub type PduGetModuleIdsFn = extern "system" fn(
     p_module_id_list: *mut *mut ModuleItem
 ) -> PduError;
 
@@ -279,7 +279,7 @@ pub type PduGetModuleIdsFn = extern "C" fn(
 /// * h_mod - Handle of the MVCI module
 /// * p_resource_id_data - Pointer to store resource ID data
 /// * p_resource_id_list - Pointer to store resource ID list
-pub type PduGetResourceIdsFn = extern "C" fn(
+pub type PduGetResourceIdsFn = extern "system" fn(
     h_mod: u32,
     p_resource_id_data: *mut RscData,
     p_resource_id_list: *mut *mut RscIdItem
@@ -291,7 +291,7 @@ pub type PduGetResourceIdsFn = extern "C" fn(
 /// * resource_id - Resource ID to check for conflicts
 /// * p_input_module_list - Pointer to module to check for conflicts
 /// * p_output_conflict_list - Pointer of destination to store a list of conflicting resources
-pub type PduGetConflictingResourcesFn = extern "C" fn(
+pub type PduGetConflictingResourcesFn = extern "system" fn(
     resource_id: u32,
     p_input_module_list: *mut ModuleItem,
     p_output_conflict_list: *mut *mut RscConflictItem
@@ -303,7 +303,7 @@ pub type PduGetConflictingResourcesFn = extern "C" fn(
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink
 /// * p_unique_resp_id_table - Pointer to store the list of unique response IDs
-pub type PduGetUniqueRespIdTableFn = extern "C" fn(
+pub type PduGetUniqueRespIdTableFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     p_unique_resp_id_table: *mut *mut UniqueRespIdTableItem
@@ -315,7 +315,7 @@ pub type PduGetUniqueRespIdTableFn = extern "C" fn(
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink
 /// * p_unique_resp_id_table - Pointer to the unique response ID table to set
-pub type PduSetUniqueRespIdTableFn = extern "C" fn(
+pub type PduSetUniqueRespIdTableFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     p_unique_resp_id_table: *mut UniqueRespIdTableItem
@@ -325,7 +325,7 @@ pub type PduSetUniqueRespIdTableFn = extern "C" fn(
 /// 
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module to try and connect
-pub type PduModuleConnectFn = extern "C" fn(
+pub type PduModuleConnectFn = extern "system" fn(
     h_mod: u32
 ) -> PduError;
 
@@ -333,7 +333,7 @@ pub type PduModuleConnectFn = extern "C" fn(
 /// 
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module to disconnect
-pub type PduModuleDisconnectFn = extern "C" fn(
+pub type PduModuleDisconnectFn = extern "system" fn(
     h_mod: u32
 ) -> PduError;
 
@@ -341,7 +341,7 @@ pub type PduModuleDisconnectFn = extern "C" fn(
 /// 
 /// ## Parameters
 /// * p_timestamp - Pointer to store timestamp in microseconds
-pub type PduGetTimestampFn = extern "C" fn(
+pub type PduGetTimestampFn = extern "system" fn(
     h_mod: u32,
     p_timestamp: *mut u32
 ) -> PduError;
