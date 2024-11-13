@@ -47,6 +47,14 @@ impl From<&mut [u8]> for IoByteArrayData {
     }
 }
 
+/// IOCTL Filter structure
+#[repr(C)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub struct IoFilter {
+    pub num_filter_entries: u32,
+    pub p_filter_data: *mut IoFilterData
+}
+
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// IOCTL Filter data structure
