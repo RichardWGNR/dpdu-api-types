@@ -72,7 +72,7 @@ pub type PduGetStatusFn = extern "system" fn(
 /// * ph_cop - If the last error persists to a ComPrimitive, then this will contain the handle of the ComPrimitive
 /// * p_timestamp - Pointer to store timestamp
 /// * Pointer for storing any extra information
-pub type PduGetListErrorFn = extern "system" fn(
+pub type PduGetLastErrorFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     p_error_code: *mut PduErrorEvt,
@@ -167,12 +167,12 @@ pub type PduUnlockResourceFn = extern "system" fn(
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink
 /// * param_id - ID value of the ComParam that is being requested
-/// * p_param_items - Pointer to store the requested ComParam into
+/// * p_param_item - Pointer to store the requested ComParam into
 pub type PduGetComParamFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     param_id: u32,
-    p_param_items: *mut *mut ParamItem
+    p_param_item: *mut *mut ParamItem
 ) -> PduError;
 
 /// Sets a com param on a ComLogicalLink
@@ -180,11 +180,11 @@ pub type PduGetComParamFn = extern "system" fn(
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to set the param on
-/// * p_param_items - Pointer to a ComParams to set
+/// * p_param_item - Pointer to a ComParams to set
 pub type PduSetComParamFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
-    p_param_items: *mut ParamItem
+    p_param_item: *mut ParamItem
 ) -> PduError;
 
 /// Creates and starts a ComPrimitive

@@ -374,9 +374,9 @@ pub struct VersionData {
     /// Hardware version (Bit encoded)
     pub hw_version: u32,
     /// hardware date (Bit encoded)
-    pub hw_data: u32,
+    pub hw_date: u32,
     /// Type of MVCI module
-    pub hw_inferface: u32,
+    pub hw_interface: u32,
     /// MVCI Firmware name
     pub fw_name: [u8; 64],
     /// MVCI firmware version (Bit encoded)
@@ -390,7 +390,7 @@ pub struct VersionData {
     /// PDU API software version (Bit encoded)
     pub pdu_api_sw_version: u32,
     /// PDU API software date (Bit encoded)
-    pub pdi_api_sw_date: u32
+    pub pdu_api_sw_date: u32
 }
 
 #[repr(C)]
