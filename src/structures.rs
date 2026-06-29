@@ -1,14 +1,16 @@
 use std::ffi::c_void;
 
-use crate::{PduIt, PduFilter, PduQueueMode, VidPreselectMode, CombinationMode, PduPt, PduPc, PduStatus, PduInfo, PduErrorEvt, PduCpst, TimingSet};
-
+use crate::{
+    CombinationMode, PduCpst, PduErrorEvt, PduFilter, PduInfo, PduIt, PduPc, PduPt, PduQueueMode,
+    PduStatus, TimingSet, VidPreselectMode,
+};
 
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// Generic structure containing item type
 pub struct PduItem {
     /// Item type
-    pub item_type: PduIt
+    pub item_type: PduIt,
 }
 
 #[repr(C)]
@@ -18,7 +20,7 @@ pub struct PduDataItem {
     /// IOCTL Item type
     pub item_type: PduIt,
     /// IOCTL data structure pointer
-    pub p_data: *mut c_void
+    pub p_data: *mut c_void,
 }
 
 #[repr(C)]
@@ -28,7 +30,7 @@ pub struct IoProgVoltageData {
     /// Programming voltage (mV)
     pub prog_voltage_mv: u32,
     /// Pin number on connector
-    pub pin_on_dlc: u32
+    pub pin_on_dlc: u32,
 }
 
 #[repr(C)]
@@ -38,12 +40,15 @@ pub struct IoByteArrayData {
     /// Data size in bytes
     pub data_size: u32,
     /// Pointer to data
-    pub p_data: *mut u8 
+    pub p_data: *mut u8,
 }
 
 impl From<&mut [u8]> for IoByteArrayData {
     fn from(x: &mut [u8]) -> Self {
-        IoByteArrayData { data_size: x.len() as u32, p_data: x.as_mut_ptr() }
+        IoByteArrayData {
+            data_size: x.len() as u32,
+            p_data: x.as_mut_ptr(),
+        }
     }
 }
 
@@ -54,15 +59,15 @@ pub struct IoFilter {
     /// Number of IoFilterData structures
     /// by p_filter_data pointer.
     pub num_filter_entries: u32,
-    
+
     /// Pointer to the first IoFilterData structure
-    pub p_filter_data: *mut IoFilterData
+    pub p_filter_data: *mut IoFilterData,
 }
 
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// IOCTL Filter data structure
-/// 
+///
 /// MASK & RAW == PATTERN
 pub struct IoFilterData {
     /// Filter type
@@ -74,7 +79,7 @@ pub struct IoFilterData {
     /// Mask message
     pub filter_mask_msg: [u8; 12],
     /// Pattern message
-    pub filter_pattern_msg: [u8; 12]
+    pub filter_pattern_msg: [u8; 12],
 }
 
 #[repr(C)]
@@ -84,12 +89,12 @@ pub struct IoEventQueuePropertyData {
     /// Max size of the event queue
     pub queue_size: u32,
     /// Queue mode
-    pub queue_mode: PduQueueMode
+    pub queue_mode: PduQueueMode,
 }
 
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-/// IOCTL Vehicle ID request 
+/// IOCTL Vehicle ID request
 pub struct VehicleIdRequest {
     /// Preselection mode
     pub preselection_mode: VidPreselectMode,
@@ -102,7 +107,7 @@ pub struct VehicleIdRequest {
     /// Number of broadcast / multicast addresses found in [VehicleIdRequest::destination_addresses] array
     pub num_destination_addresses: u32,
     /// Pointer to array of IP addresses
-    pub destination_addresses: *mut IpAddrInfo
+    pub destination_addresses: *mut IpAddrInfo,
 }
 
 #[repr(C)]
@@ -112,7 +117,7 @@ pub struct IpAddrInfo {
     /// IP version 4 = Ipv4, 6 = Ipv6
     pub ip_version: u32,
     /// Pointer to broadcast address (4 bytes for Ipv4, 16 bytes for Ipv6)
-    pub p_address: *mut u8
+    pub p_address: *mut u8,
 }
 
 #[repr(C)]
@@ -122,7 +127,7 @@ pub struct EthSwitchState {
     /// Sense state - 0 = pin off, 1 = pin on
     pub eth_sense_state: u32,
     /// Pin number for ethernet activation
-    pub eth_act_pin_num: u32
+    pub eth_act_pin_num: u32,
 }
 
 #[repr(C)]
@@ -134,7 +139,7 @@ pub struct RscStatusData {
     /// Number of entries
     pub num_entries: u32,
     /// Pointer to array of entries
-    pub p_resource_status_data: *mut RscStatusItem
+    pub p_resource_status_data: *mut RscStatusItem,
 }
 
 #[repr(C)]
@@ -146,7 +151,7 @@ pub struct RscStatusItem {
     /// Resource ID
     pub resource_id: u32,
     /// Resource information status
-    pub resource_status: u32
+    pub resource_status: u32,
 }
 
 #[repr(C)]
@@ -162,7 +167,7 @@ pub struct ParamItem {
     /// Com param class type
     pub com_param_class: PduPc,
     /// Pointer to data of ComParam (of type specified in [ParamItem::com_param_class])
-    pub p_com_param_data: *mut c_void
+    pub p_com_param_data: *mut c_void,
 }
 
 #[repr(C)]
@@ -174,7 +179,7 @@ pub struct ModuleItem {
     /// Number of entries in [ModuleItem::p_module_data]
     pub num_entries: u32,
     /// Pointer to array of [ModuleData]
-    pub p_module_data: *mut ModuleData
+    pub p_module_data: *mut ModuleData,
 }
 
 #[repr(C)]
@@ -190,7 +195,7 @@ pub struct ModuleData {
     /// Null terminated string pointer of any additional info
     pub vendor_additional_info: *mut u8,
     /// Module status
-    pub status: PduStatus
+    pub status: PduStatus,
 }
 
 #[repr(C)]
@@ -202,7 +207,7 @@ pub struct RscIdItem {
     /// Number of entries in [RscIdItem::p_id_item_data]
     pub num_modules: u32,
     /// Pointer to array of [RscIdItemData]
-    pub p_id_item_data: *mut RscIdItemData
+    pub p_id_item_data: *mut RscIdItemData,
 }
 
 #[repr(C)]
@@ -214,7 +219,7 @@ pub struct RscIdItemData {
     /// Number of IDs
     pub num_ids: u32,
     /// Pointer to list of resource IDs
-    pub p_resource_id_array: *mut u32
+    pub p_resource_id_array: *mut u32,
 }
 
 #[repr(C)]
@@ -228,7 +233,7 @@ pub struct RscData {
     /// Number of items in [RscData::p_dlc_pin_data]
     pub num_pin_data: u32,
     /// Pointer to array of [PinData]
-    pub p_dlc_pin_data: *mut PinData
+    pub p_dlc_pin_data: *mut PinData,
 }
 
 #[repr(C)]
@@ -238,7 +243,7 @@ pub struct PinData {
     /// Pin number on data connector
     pub dlc_pin_number: u32,
     /// Pin ID
-    pub dlc_pin_type_id: u32
+    pub dlc_pin_type_id: u32,
 }
 
 #[repr(C)]
@@ -250,7 +255,7 @@ pub struct RscConflictItem {
     /// Number of entries in [RscConflictItem::p_rsc_conflict_data]
     pub num_entries: u32,
     /// Pointer to array of [RscConflictData]
-    pub p_rsc_conflict_data: *mut RscConflictData
+    pub p_rsc_conflict_data: *mut RscConflictData,
 }
 
 #[repr(C)]
@@ -260,7 +265,7 @@ pub struct RscConflictData {
     /// MVCI handle ID with conflict
     pub h_mod: u32,
     /// The conflicting resource ID
-    pub resource_id: u32
+    pub resource_id: u32,
 }
 
 #[repr(C)]
@@ -272,7 +277,7 @@ pub struct UniqueRespIdTableItem {
     /// Number of entries in [UniqueRespIdTableItem::p_unique_data]
     pub num_entries: u32,
     /// Pointer to array of [EcuUniqueRespData]
-    pub p_unique_data: *mut EcuUniqueRespData
+    pub p_unique_data: *mut EcuUniqueRespData,
 }
 
 #[repr(C)]
@@ -284,7 +289,7 @@ pub struct EcuUniqueRespData {
     /// Number of ComParams for the unique identifier
     pub num_param_items: u32,
     /// Pointer to array of ComParams used to uniquely define the ECUs unique response
-    pub p_params: *mut ParamItem
+    pub p_params: *mut ParamItem,
 }
 
 #[repr(C)]
@@ -300,7 +305,7 @@ pub struct EventItem {
     /// Timestamp in microseconds
     pub timestamp: u32,
     /// Pointer to the data of the event
-    pub p_data: *mut c_void
+    pub p_data: *mut c_void,
 }
 
 #[repr(C)]
@@ -310,7 +315,7 @@ pub struct InfoData {
     /// Information code
     pub info_code: PduInfo,
     /// optional extra information data
-    pub extra_info_data: u32
+    pub extra_info_data: u32,
 }
 
 #[repr(C)]
@@ -320,7 +325,7 @@ pub struct ErrorData {
     /// Error code
     pub error_code_id: PduErrorEvt,
     /// optional extra error information
-    pub extra_error_info_id: u32
+    pub extra_error_info_id: u32,
 }
 
 #[repr(C)]
@@ -344,7 +349,7 @@ pub struct ResultData {
     /// Number of bytes in [ResultData::p_data_bytes]
     pub num_data_bytes: u32,
     /// Pointer to payload data structure
-    pub p_data_bytes: *mut u8
+    pub p_data_bytes: *mut u8,
 }
 
 #[repr(C)]
@@ -358,7 +363,7 @@ pub struct ExtraInfo {
     /// Reference to response header bytes
     pub p_header_bytes: *mut u8,
     /// Reference to response footer bytes
-    pub p_footer_bytes: *mut u8
+    pub p_footer_bytes: *mut u8,
 }
 
 #[repr(C)]
@@ -368,7 +373,7 @@ pub struct FlagData {
     /// Number of bytes in [FlagData::p_flag_data]
     pub num_flag_bytes: u32,
     /// Pointer to flag bytes
-    pub p_flag_data: *mut u8
+    pub p_flag_data: *mut u8,
 }
 
 #[repr(C)]
@@ -402,7 +407,7 @@ pub struct VersionData {
     /// PDU API software version (Bit encoded)
     pub pdu_api_sw_version: u32,
     /// PDU API software date (Bit encoded)
-    pub pdu_api_sw_date: u32
+    pub pdu_api_sw_date: u32,
 }
 
 #[repr(C)]
@@ -422,17 +427,17 @@ pub struct CopCtrlData {
     /// Number of elements in [CopCtrlData::expected_response_array]
     pub num_possible_expected_responses: u32,
     /// Pointer to an array of expected responses
-    pub expected_response_array: *mut ExpRespData
+    pub expected_response_array: *mut ExpRespData,
 }
 
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// DoIP IO Entity address data
 pub struct IoEntityAddressData {
-    /// Logical addresses 
+    /// Logical addresses
     pub logical_address: u32,
     /// Timeout in milliseconds to wait for responses
-    pub doip_ctrl_timeout: u32
+    pub doip_ctrl_timeout: u32,
 }
 
 #[repr(C)]
@@ -446,7 +451,7 @@ pub struct IoEntityStatusData {
     /// Number of current sockets
     pub tcp_clients: u32,
     /// Optional limit in bytes for max size of a single DoIP request
-    pub max_data_size: u32
+    pub max_data_size: u32,
 }
 
 #[repr(C)]
@@ -466,7 +471,7 @@ pub struct ExpRespData {
     /// Number of items in [ExpRespData::p_unique_resp_ids]
     pub num_unique_resp_ids: u32,
     /// Array containing unique response IDs
-    pub p_unique_resp_ids: *mut u32
+    pub p_unique_resp_ids: *mut u32,
 }
 
 #[repr(C)]
@@ -478,7 +483,7 @@ pub struct ParamByteFieldData {
     /// Current (actual) number of bytes in [ParamByteFieldData::p_data_array]
     pub param_act_len: u32,
     /// Pointer to data array
-    pub p_data_array: *mut u8
+    pub p_data_array: *mut u8,
 }
 
 #[repr(C)]
@@ -492,7 +497,7 @@ pub struct ParamStructFieldData {
     /// Current (actual) number of structures in [ParamStructFieldData::p_struct_array]
     pub param_act_entries: u32,
     /// Pointer to structure array (See [ParamStructSessionTiming] and [ParamStructAccessTiming])
-    pub p_struct_array: *mut c_void
+    pub p_struct_array: *mut c_void,
 }
 
 #[repr(C)]
@@ -508,7 +513,7 @@ pub struct ParamStructSessionTiming {
     /// 10ms resolution
     pub p2_star_high: u8,
     /// 10ms resolution
-    pub p2_star_low: u8
+    pub p2_star_low: u8,
 }
 
 #[repr(C)]
@@ -526,7 +531,7 @@ pub struct ParamStructAccessTiming {
     /// 0.5ms resolution - Minimum inter-byte time for tester request
     pub p4_min: u8,
     /// Timing set type
-    pub timing_set: TimingSet
+    pub timing_set: TimingSet,
 }
 
 #[repr(C)]
@@ -538,5 +543,5 @@ pub struct ParamLongFieldData {
     /// Current (actual) number of entries in [ParamLongFieldData::p_data_array]
     pub param_act_len: u32,
     /// Pointer to data array
-    pub p_data_array: *mut u32
+    pub p_data_array: *mut u32,
 }

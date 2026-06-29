@@ -2,50 +2,44 @@ use std::ffi::c_void;
 
 use crate::*;
 
-
-
 /// Constructs and initializes the PDU API library
-/// 
+///
 /// ## Parameters
 /// * option_str - A list of attributes and values specific to D-PDU API
 /// * p_api_tag - Application defined tag value for callbacks
-pub type PduConstructFn = extern "system" fn(
-    option_str: *mut u8, 
-    p_api_tag: *mut c_void
-) -> PduError;
+pub type PduConstructFn =
+    extern "system" fn(option_str: *mut u8, p_api_tag: *mut c_void) -> PduError;
 
 /// Closes all open communication channels and destructs the PDU API library
 pub type PduDestructFn = extern "system" fn() -> PduError;
 
 /// Performs generic IOCTL calls on a MVCI or ComLogicalLink
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of MVCI module
 /// * h_cll - Handle of the ComLogicalLink
 /// * ioctl_commanded_id - IO Command to send to ComLogicalLink
 /// * p_input_data - Pointer to input data item (Null if not required)
 /// * p_output_data - Pointer to output data item (Null if not required)
-/// 
+///
 pub type PduIoctlFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     ioctl_commanded_id: u32,
     p_input_data: *mut PduDataItem,
-    p_output_data: *mut *mut PduDataItem
+    p_output_data: *mut *mut PduDataItem,
 ) -> PduError;
 
 /// Gets version information from MVCI module
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * p_version_data - Output pointer for the destination of the version data
-pub type PduGetVersionFn = extern "system" fn(
-    h_mod: u32,
-    p_version_data: *mut VersionData
-) -> PduError;
+pub type PduGetVersionFn =
+    extern "system" fn(h_mod: u32, p_version_data: *mut VersionData) -> PduError;
 
 /// Gets runtime information from either a MVCI module, ComLogicalLink or ComPrimitive
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink
@@ -59,7 +53,7 @@ pub type PduGetStatusFn = extern "system" fn(
     h_cop: u32,
     p_status_code: *mut PduStatus,
     p_timestamp: *mut u32,
-    p_extra_info: *mut u32
+    p_extra_info: *mut u32,
 ) -> PduError;
 
 /// Gets the last runtime error from the MVCI module or ComLogicalLink
@@ -78,19 +72,18 @@ pub type PduGetLastErrorFn = extern "system" fn(
     p_error_code: *mut PduErrorEvt,
     ph_cop: *mut u32,
     p_timestamp: *mut u32,
-    p_extra_error_info: *mut u32
+    p_extra_error_info: *mut u32,
 ) -> PduError;
 
 /// Obtains resource status information from the PDU API
-/// 
+///
 /// ## Parameters
 /// * p_resource_status - Pointer to store the status of the requested resource IDs
-pub type PduGetResourceStatusFn = extern "system" fn(
-    p_resource_status: *mut RscStatusItem
-) -> PduError;
+pub type PduGetResourceStatusFn =
+    extern "system" fn(p_resource_status: *mut RscStatusItem) -> PduError;
 
 /// Creates a ComLogicalLink for a given resource ID
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * p_rsc_data - Pointer to resource data objects
@@ -104,65 +97,49 @@ pub type PduCreateComLogicalLinkFn = extern "system" fn(
     resource_id: u32,
     p_cll_tag: *mut c_void,
     ph_cll: *mut u32,
-    p_cll_create_flag: *mut FlagData
+    p_cll_create_flag: *mut FlagData,
 ) -> PduError;
 
 /// Destroys a given ComLogicalLink
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to destroy
-pub type PduDestroyComLogicalLinkFn = extern "system" fn(
-    h_mod: u32,
-    h_cll: u32
-) -> PduError;
+pub type PduDestroyComLogicalLinkFn = extern "system" fn(h_mod: u32, h_cll: u32) -> PduError;
 
 /// Connects a ComLogicalLink to a vehicle interface
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to connect
-pub type PduConnectFn = extern "system" fn(
-    h_mod: u32,
-    h_cll: u32
-) -> PduError;
+pub type PduConnectFn = extern "system" fn(h_mod: u32, h_cll: u32) -> PduError;
 
 /// Disconnects a ComLogicalLink from a vehicle interface
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to disconnect
-pub type PduDisconnectFn = extern "system" fn(
-    h_mod: u32,
-    h_cll: u32
-) -> PduError;
+pub type PduDisconnectFn = extern "system" fn(h_mod: u32, h_cll: u32) -> PduError;
 
 /// Locks a physical resource so that a ComLogicalLink has exclusive access to it
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to be granted exclusive access
 /// * lock_mask - Bit encoded mask to request for locking
-pub type PduLockResourceFn = extern "system" fn(
-    h_mod: u32,
-    h_cll: u32,
-    lock_mask: u32
-) -> PduError;
+pub type PduLockResourceFn = extern "system" fn(h_mod: u32, h_cll: u32, lock_mask: u32) -> PduError;
 
 /// Unlocks a physical resource from a ComLogicalLink that has exclusive access to it
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to unlock the resource from
 /// * lock_mask - Bit encoded mask to request for release
-pub type PduUnlockResourceFn = extern "system" fn(
-    h_mod: u32,
-    h_cll: u32,
-    lock_mask: u32
-) -> PduError;
+pub type PduUnlockResourceFn =
+    extern "system" fn(h_mod: u32, h_cll: u32, lock_mask: u32) -> PduError;
 
 /// Obtains a communication or bus ComParam out of the MVCIs working buffer of a ComLogicalLink
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink
@@ -172,7 +149,7 @@ pub type PduGetComParamFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
     param_id: u32,
-    p_param_item: *mut *mut ParamItem
+    p_param_item: *mut *mut ParamItem,
 ) -> PduError;
 
 /// Sets a com param on a ComLogicalLink
@@ -181,14 +158,11 @@ pub type PduGetComParamFn = extern "system" fn(
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to set the param on
 /// * p_param_item - Pointer to a ComParams to set
-pub type PduSetComParamFn = extern "system" fn(
-    h_mod: u32,
-    h_cll: u32,
-    p_param_item: *mut ParamItem
-) -> PduError;
+pub type PduSetComParamFn =
+    extern "system" fn(h_mod: u32, h_cll: u32, p_param_item: *mut ParamItem) -> PduError;
 
 /// Creates and starts a ComPrimitive
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink to start the ComPrimitive on
@@ -205,55 +179,44 @@ pub type PduStartComPrimitiveFn = extern "system" fn(
     p_cop_data: *mut u8,
     p_cop_ctrl_data: *mut CopCtrlData,
     p_cop_tag: *mut c_void,
-    ph_cop: *mut u32
+    ph_cop: *mut u32,
 ) -> PduError;
 
 /// Cancels and stops a ComPrimitive
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink
 /// * h_cop - Handle of the ComPrimitive
-pub type PduCancelComPrimitiveFn = extern "system" fn(
-    h_mod: u32,
-    h_cll: u32,
-    h_cop: u32
-) -> PduError;
+pub type PduCancelComPrimitiveFn =
+    extern "system" fn(h_mod: u32, h_cll: u32, h_cop: u32) -> PduError;
 
 /// Retrieves event data for a given event source
-/// 
+///
 /// ## Parameter
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink
 /// * p_event_item - Pointer to store the event item
-pub type PduGetEventItemFn = extern "system" fn(
-    h_mod: u32,
-    h_cll: u32,
-    p_event_item: *mut *mut EventItem
-) -> PduError;
+pub type PduGetEventItemFn =
+    extern "system" fn(h_mod: u32, h_cll: u32, p_event_item: *mut *mut EventItem) -> PduError;
 
 /// Destroys a given item
-/// 
+///
 /// ## Parameters
 /// * p_item - Pointer to item to be destroyed
-pub type PduDestroyItemFn = extern "system" fn(
-    p_item: *mut PduItem
-) -> PduError;
+pub type PduDestroyItemFn = extern "system" fn(p_item: *mut PduItem) -> PduError;
 
 /// Registers a callback function
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink
 /// * callback_fn - Callback function (null to deregister callback)
-pub type PduRegisterCallbackFn = extern "system" fn(
-    h_mod: u32,
-    h_cll: u32,
-    callback_fn: EventCallbackFn
-) -> PduError;
+pub type PduRegisterCallbackFn =
+    extern "system" fn(h_mod: u32, h_cll: u32, callback_fn: EventCallbackFn) -> PduError;
 
 /// Gets the Item ID of a given item
-/// 
+///
 /// ## Parameters
 /// * pdu_object_type - Type of object
 /// * p_short_name - Short name of the object
@@ -261,20 +224,17 @@ pub type PduRegisterCallbackFn = extern "system" fn(
 pub type PduGetObjectIdFn = extern "system" fn(
     pdu_object_type: PduObjt,
     p_short_name: *mut u8,
-    p_pdu_object_id: *mut u32
+    p_pdu_object_id: *mut u32,
 ) -> PduError;
-
 
 /// Object module information
-/// 
+///
 /// ## Parameters
 /// * p_module_id_list - Pointer for storing the pointer of the module information list
-pub type PduGetModuleIdsFn = extern "system" fn(
-    p_module_id_list: *mut *mut ModuleItem
-) -> PduError;
+pub type PduGetModuleIdsFn = extern "system" fn(p_module_id_list: *mut *mut ModuleItem) -> PduError;
 
 /// Get a list of resource IDs
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * p_resource_id_data - Pointer to store resource ID data
@@ -282,11 +242,11 @@ pub type PduGetModuleIdsFn = extern "system" fn(
 pub type PduGetResourceIdsFn = extern "system" fn(
     h_mod: u32,
     p_resource_id_data: *mut RscData,
-    p_resource_id_list: *mut *mut RscIdItem
+    p_resource_id_list: *mut *mut RscIdItem,
 ) -> PduError;
 
 /// Gets a list of conflicting resources
-/// 
+///
 /// ## Parameters
 /// * resource_id - Resource ID to check for conflicts
 /// * p_input_module_list - Pointer to module to check for conflicts
@@ -294,11 +254,11 @@ pub type PduGetResourceIdsFn = extern "system" fn(
 pub type PduGetConflictingResourcesFn = extern "system" fn(
     resource_id: u32,
     p_input_module_list: *mut ModuleItem,
-    p_output_conflict_list: *mut *mut RscConflictItem
+    p_output_conflict_list: *mut *mut RscConflictItem,
 ) -> PduError;
 
 /// Gets a list of unique response IDs from a ComLogicalLink
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink
@@ -306,11 +266,11 @@ pub type PduGetConflictingResourcesFn = extern "system" fn(
 pub type PduGetUniqueRespIdTableFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
-    p_unique_resp_id_table: *mut *mut UniqueRespIdTableItem
+    p_unique_resp_id_table: *mut *mut UniqueRespIdTableItem,
 ) -> PduError;
 
 /// Sets a unique response ID table for the ComLogicalLink
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module
 /// * h_cll - Handle of the ComLogicalLink
@@ -318,30 +278,23 @@ pub type PduGetUniqueRespIdTableFn = extern "system" fn(
 pub type PduSetUniqueRespIdTableFn = extern "system" fn(
     h_mod: u32,
     h_cll: u32,
-    p_unique_resp_id_table: *mut UniqueRespIdTableItem
+    p_unique_resp_id_table: *mut UniqueRespIdTableItem,
 ) -> PduError;
 
 /// Determines if a MVCI module is available to connect
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module to try and connect
-pub type PduModuleConnectFn = extern "system" fn(
-    h_mod: u32
-) -> PduError;
+pub type PduModuleConnectFn = extern "system" fn(h_mod: u32) -> PduError;
 
 /// Tries to close all communication channels of a MVCI module
-/// 
+///
 /// ## Parameters
 /// * h_mod - Handle of the MVCI module to disconnect
-pub type PduModuleDisconnectFn = extern "system" fn(
-    h_mod: u32
-) -> PduError;
+pub type PduModuleDisconnectFn = extern "system" fn(h_mod: u32) -> PduError;
 
 /// Obtains the current hardware clock of the MVCI module
-/// 
+///
 /// ## Parameters
 /// * p_timestamp - Pointer to store timestamp in microseconds
-pub type PduGetTimestampFn = extern "system" fn(
-    h_mod: u32,
-    p_timestamp: *mut u32
-) -> PduError;
+pub type PduGetTimestampFn = extern "system" fn(h_mod: u32, p_timestamp: *mut u32) -> PduError;
