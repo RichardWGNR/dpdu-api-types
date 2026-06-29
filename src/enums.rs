@@ -1,5 +1,4 @@
-
-#[repr(C)]
+#[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// Item type values
 pub enum PduIt {
@@ -43,7 +42,7 @@ pub enum PduIt {
     EntityStatus = 0x1803
 }
 
-#[repr(C)]
+#[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// Communication primitive (ComParam) type
 pub enum PduCopt {
@@ -62,7 +61,7 @@ pub enum PduCopt {
     RestoreParam = 0x8006
 }
 
-#[repr(C)]
+#[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// Object type
 pub enum PduObjt {
@@ -80,7 +79,7 @@ pub enum PduObjt {
     Resource = 0x8026
 }
 
-#[repr(C)]
+#[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// Status codes
 pub enum PduStatus {
@@ -110,7 +109,7 @@ pub enum PduStatus {
     ModstAvail = 0x8063
 }
 
-#[repr(C)]
+#[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// Information events
 pub enum PduInfo {
@@ -122,7 +121,7 @@ pub enum PduInfo {
     ComParamChange = 0x8072
 }
 
-#[repr(C)]
+#[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// Event callback
 pub enum PduEvtData {
@@ -132,7 +131,7 @@ pub enum PduEvtData {
     Lost = 0x0802
 }
 
-#[repr(C)]
+#[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// Filter type
 pub enum PduFilter {
@@ -146,7 +145,7 @@ pub enum PduFilter {
     BlockUUDT = 0x00000012
 }
 
-#[repr(C)]
+#[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// IOCTL queue mode
 pub enum PduQueueMode {
@@ -161,7 +160,7 @@ pub enum PduQueueMode {
     Circular = 0x00000002
 }
 
-#[repr(C)]
+#[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// Function return values
 pub enum PduError {
@@ -257,7 +256,7 @@ pub enum PduError {
     DoIPResponseTimeout = 0x000000BC
 }
 
-#[repr(C)]
+#[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// Function error events (Used in asynchronous situations)
 pub enum PduErrorEvt {
@@ -285,7 +284,7 @@ pub enum PduErrorEvt {
     InitError = 0x00000108
 }
 
-#[repr(C)]
+#[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// ComParam data type
 pub enum PduPt {
@@ -309,7 +308,7 @@ pub enum PduPt {
     LongField = 0x00000109
 }
 
-#[repr(C)]
+#[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// ComParam data class
 pub enum PduPc {
@@ -329,7 +328,7 @@ pub enum PduPc {
     TesterPresent = 7
 }
 
-#[repr(C)]
+#[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// ComParam struct type
 pub enum PduCpst {
@@ -339,7 +338,7 @@ pub enum PduCpst {
     AccessTiming = 0x00000002,
 }
 
-#[repr(u32)]
+#[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// Vehicle preselection mode
 pub enum VidPreselectMode {
@@ -351,7 +350,7 @@ pub enum VidPreselectMode {
     EID = 2
 }
 
-#[repr(u32)]
+#[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 /// DoIP Combination mode
 pub enum CombinationMode {
