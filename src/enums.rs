@@ -12,7 +12,7 @@ pub enum PduIt {
     IoFilter = 0x1003,
     /// IOCTL event queue priority
     IoEventQueueProperty = 0x1004,
-    /// Resource status 
+    /// Resource status
     RscStatus = 0x1100,
     /// Communication parameter (ComParam)
     Param = 0x1200,
@@ -39,7 +39,7 @@ pub enum PduIt {
     /// DoIP entity addressing
     EntityAddress = 0x1802,
     /// DoIP entity status
-    EntityStatus = 0x1803
+    EntityStatus = 0x1803,
 }
 
 #[repr(u32)]
@@ -58,7 +58,7 @@ pub enum PduCopt {
     Delay = 0x8005,
     /// Opposite of [PduCopt::UpdateParam], copies active com param from logical communication
     /// link to a working buffer
-    RestoreParam = 0x8006
+    RestoreParam = 0x8006,
 }
 
 #[repr(u32)]
@@ -76,7 +76,7 @@ pub enum PduObjt {
     /// Pin type object
     PinType = 0x8025,
     /// resource object
-    Resource = 0x8026
+    Resource = 0x8026,
 }
 
 #[repr(u32)]
@@ -106,7 +106,7 @@ pub enum PduStatus {
     /// Vehicle communication interface is unavailable for connection
     ModstNotAvail = 0x8062,
     /// Vehicle communication interface is available for connection
-    ModstAvail = 0x8063
+    ModstAvail = 0x8063,
 }
 
 #[repr(u32)]
@@ -118,7 +118,7 @@ pub enum PduInfo {
     /// A change has occurred with the lock status on a shared resource
     ResourceLockChange = 0x8071,
     /// A communication parameter on a logical link has been changed
-    ComParamChange = 0x8072
+    ComParamChange = 0x8072,
 }
 
 #[repr(u32)]
@@ -128,7 +128,7 @@ pub enum PduEvtData {
     /// There is event data available to read by the application
     Available = 0x801,
     /// The ComLogicalLink has lost event data due to a buffer overrun
-    Lost = 0x0802
+    Lost = 0x0802,
 }
 
 #[repr(u32)]
@@ -142,7 +142,7 @@ pub enum PduFilter {
     /// Matches messages go into the receive queue that are UUDT only (For ISO1765)
     PassUUDT = 0x00000011,
     /// Matches messages stay out of the receive queue that are UUDT only (For ISO1765)
-    BlockUUDT = 0x00000012
+    BlockUUDT = 0x00000012,
 }
 
 #[repr(u32)]
@@ -157,7 +157,7 @@ pub enum PduQueueMode {
     Limited = 0x00000001,
     /// Attempt to allocate a fixed buffer size for events coming into the receive queue. Events overwrite
     /// stored events if the buffer is full (Like a circular buffer)
-    Circular = 0x00000002
+    Circular = 0x00000002,
 }
 
 #[repr(u32)]
@@ -253,7 +253,7 @@ pub enum PduError {
     /// DoIP Routing activation failed - Timeout waiting for activation response
     DoIPRoutingActivationResponseTimeout = 0x000000BB,
     /// DoIP general timeout
-    DoIPResponseTimeout = 0x000000BC
+    DoIPResponseTimeout = 0x000000BC,
 }
 
 #[repr(u32)]
@@ -281,7 +281,7 @@ pub enum PduErrorEvt {
     /// MVCI hardware fault
     VCIHardwareFault = 0x00000107,
     /// Protocol initialization error
-    InitError = 0x00000108
+    InitError = 0x00000108,
 }
 
 #[repr(u32)]
@@ -305,7 +305,7 @@ pub enum PduPt {
     /// Structure
     StructField = 0x000000108,
     /// Array of 32bit values
-    LongField = 0x00000109
+    LongField = 0x00000109,
 }
 
 #[repr(u32)]
@@ -322,10 +322,10 @@ pub enum PduPc {
     ErrHdl = 4,
     /// BusType specific ComParam
     BusType = 5,
-    /// 
+    ///
     UniqueId = 6,
     /// Tester present ComParam
-    TesterPresent = 7
+    TesterPresent = 7,
 }
 
 #[repr(u32)]
@@ -347,7 +347,7 @@ pub enum VidPreselectMode {
     /// DoIP with given VIN
     VIN = 1,
     /// DoIP with given EID
-    EID = 2
+    EID = 2,
 }
 
 #[repr(u8)]
@@ -361,7 +361,7 @@ pub enum CombinationMode {
     /// Combine common GroupID
     Group = 2,
     /// Combine all
-    All = 3
+    All = 3,
 }
 
 #[repr(u8)]
@@ -377,5 +377,5 @@ pub enum TimingSet {
     /// Normal timing set
     Normal = 4,
     /// Extended timing set
-    Extended = 0xFF
+    Extended = 0xFF,
 }
